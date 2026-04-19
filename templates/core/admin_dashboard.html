@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container mt-4">
+
+  <!-- Dashboard Heading -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">📊 Admin Dashboard</h2>
+    <p class="text-muted">Overview of users, quizzes, and attempts</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm text-center p-3 dark:bg-gray-900 dark:text-white">
+        <h5>Total Users</h5>
+        <h2 class="fw-bold text-primary">{{ total_users }}</h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm text-center p-3 dark:bg-gray-900 dark:text-white">
+        <h5>Total Quizzes</h5>
+        <h2 class="fw-bold text-success">{{ total_quizzes }}</h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm text-center p-3 dark:bg-gray-900 dark:text-white">
+        <h5>Total Attempts</h5>
+        <h2 class="fw-bold text-danger">{{ total_attempts }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Download Users CSV Button -->
+  <div class="text-end mb-3">
+    <a href="{% url 'download_users_csv' %}" class="btn btn-success">
+      ⬇️ Download Users CSV
+    </a>
+    <a href="{% url 'admin_manage_quizzes' %}" class="btn btn-primary ms-2">
+      ⚙️ Manage Quizzes
+    </a>
+  </div>
+
+  <!-- Top Quizzes -->
+  <div class="card quiz-card shadow-sm mt-4">
+    <div class="card-header quiz-card-header">
+        🏆 Top 5 Attempted Quizzes
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for quiz in top_quizzes %}
+            <li class="list-group-item quiz-item d-flex justify-content-between align-items-center">
+                {{ quiz.title }}
+                <span class="badge attempt-badge rounded-pill">{{ quiz.attempts }} attempts</span>
+            </li>
+        {% empty %}
+            <li class="list-group-item quiz-item">No quizzes attempted yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+{% endblock %}
